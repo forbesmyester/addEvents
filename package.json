@@ -1,6 +1,6 @@
 {
   "name": "addEvents",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "description": "Simple library for decorating a prototypical class with events",
   "author": "Matthew Forrester <matt@keyboardwritescode.com>",
   "dependencies": {
