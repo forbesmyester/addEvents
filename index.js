@@ -67,29 +67,36 @@ var addEvents = function(classFunc, events) {
 
 		var i = 0,
 			args = Array.prototype.slice.call(arguments, 1);
-
+		
 		if (this._eventTypes.indexOf(event) === -1) {
 			throw "SyncIt._emit(): Attempting to fire unknown event '" + event + "'";
 		}
+		
+		var toFire = [];
 		
 		if (
 			this.hasOwnProperty('_onceListeners') &&
 			this._onceListeners.hasOwnProperty(event)
 		) {
 			while (this._onceListeners[event].length) {
-				var f = this._onceListeners[event].shift();
-				f.apply(this, args);
+				toFire.push(this._onceListeners[event].shift());
 			}
 		}
 		
 		if (
-			!this.hasOwnProperty('_listeners') ||
-			!this._listeners.hasOwnProperty(event)
-		) { return; }
+			this.hasOwnProperty('_listeners') &&
+			this._listeners.hasOwnProperty(event)
+		) {
 
-		for (i=0; i<this._listeners[event].length; i++) {
-			this._listeners[event][i].apply(this, args);
+			for (i=0; i<this._listeners[event].length; i++) {
+				toFire.push(this._listeners[event][i]);
+			}
 		}
+		
+		while (toFire.length) {
+			toFire.shift().apply(this, args);
+		}
+		
 	};
 
 	var pushTo = function(objKey, event, func, ctx) {

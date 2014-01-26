@@ -165,6 +165,26 @@ describe('addEvents',function() {
 		c.fire();
 	});
 	
+	it('will snapshot event functions to fire before firing them', function(done) {
+		var C = function() {};
+		C.prototype.fire = function() {
+			setTimeout(function() {
+				this._emit('a', {b: 'c'});
+			}.bind(this), 10);
+		};
+		addEvents(C, ['a', 'b']);
+		var c = new C();
+		c.once('a', function() {
+			c.on('a', function() {
+				expect().fail();
+			})
+			setTimeout(function() {
+				done();
+			},100)
+		});
+		c.fire();
+	});
+	
 });
 
 }));
