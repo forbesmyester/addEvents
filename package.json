@@ -1,6 +1,6 @@
 {
   "name": "add-events",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Simple library for decorating a prototypical class with events",
   "author": "Matthew Forrester <matt@keyboardwritescode.com>",
   "dependencies": {
@@ -17,5 +17,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/forbesmyester/addEvents.git"
+  },
+  "scripts": {
+    "test": "mocha test/index.js"
   }
 }
